@@ -5,7 +5,7 @@ from flask import Flask, Response
 from flask import render_template
 
 app = Flask(__name__)
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__, template_folder='template')
 
 
 def cities_import() -> List[Dict]:
