@@ -1,14 +1,17 @@
+import os
+
+# import jinja2
 import simplejson as json
 from flask import Flask, request, Response, redirect
 from flask import render_template
 from flaskext.mysql import MySQL
 from pymysql.cursors import DictCursor
-from jinja2 import Environment, FileSystemLoader
+# from jinja2 import Environment, FileSystemLoader
 
-Environment = Environment(loader=FileSystemLoader('templates/'))
+# Environment = Environment(loader=FileSystemLoader('templates/'))
 
 app = Flask(__name__)
-# app = Flask(__name__, template_folder='template')
+# app = Flask(__name__, template_folder='template/')
 
 mysql = MySQL(cursorclass=DictCursor)
 
