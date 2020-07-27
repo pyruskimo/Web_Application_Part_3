@@ -5,10 +5,6 @@ from flaskext.mysql import MySQL
 from pymysql.cursors import DictCursor
 
 
-# def templates():
-#     pass
-
-
 # app = Flask(__name__)
 app = Flask(__name__, template_folder='template')
 mysql = MySQL(cursorclass=DictCursor)
