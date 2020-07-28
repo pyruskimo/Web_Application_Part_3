@@ -1,5 +1,4 @@
-import os
-
+# import os
 # import jinja2
 import simplejson as json
 from flask import Flask, request, Response, redirect
@@ -10,8 +9,10 @@ from pymysql.cursors import DictCursor
 
 # Environment = Environment(loader=FileSystemLoader('templates/'))
 
-app = Flask(__name__)
-# app = Flask(__name__, template_folder='template/')
+# app = Flask(__name__)
+# template_dir = os.path.join(os.path.dirname(__name__), 'templates')
+# jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir))
+app = Flask(__name__, template_folder='/Users/bml/dockerfile/Web_Application_Part_3/app/templates')
 
 mysql = MySQL(cursorclass=DictCursor)
 
@@ -29,7 +30,7 @@ def index():
     cursor = mysql.get_db().cursor()
     cursor.execute('SELECT * FROM tblCitiesImport')
     result = cursor.fetchall()
-    return render_template('index.html', title='Home', user=user, cities=result)
+    return render_template('/Users/bml/dockerfile/Web_Application_Part_3/app/templates/index.html', title='Home', user=user, cities=result)
 
 
 @app.route('/view/<int:city_id>', methods=['GET'])
