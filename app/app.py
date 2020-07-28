@@ -1,19 +1,11 @@
-# import os
-# import jinja2
+from typing import List, Dict
 import simplejson as json
 from flask import Flask, request, Response, redirect
 from flask import render_template
 from flaskext.mysql import MySQL
 from pymysql.cursors import DictCursor
-# from jinja2 import Environment, FileSystemLoader
 
-# Environment = Environment(loader=FileSystemLoader('templates/'))
-
-# app = Flask(__name__)
-# template_dir = os.path.join(os.path.dirname(__name__), 'templates')
-# jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir))
-app = Flask(__name__, template_folder='/Users/bml/dockerfile/Web_Application_Part_3/app/templates')
-
+app = Flask(__name__)
 mysql = MySQL(cursorclass=DictCursor)
 
 app.config['MYSQL_DATABASE_HOST'] = 'db'
@@ -30,7 +22,7 @@ def index():
     cursor = mysql.get_db().cursor()
     cursor.execute('SELECT * FROM tblCitiesImport')
     result = cursor.fetchall()
-    return render_template('/Users/bml/dockerfile/Web_Application_Part_3/app/templates/index.html', title='Home', user=user, cities=result)
+    return render_template('index.html', title='Home', user=user, cities=result)
 
 
 @app.route('/view/<int:city_id>', methods=['GET'])
@@ -73,8 +65,7 @@ def form_insert_post():
     inputData = (request.form.get('fldName'), request.form.get('fldLat'), request.form.get('fldLong'),
                  request.form.get('fldCountry'), request.form.get('fldAbbreviation'),
                  request.form.get('fldCapitalStatus'), request.form.get('fldPopulation'))
-    sql_insert_query = """INSERT INTO tblCitiesImport (fldName,fldLat,fldLong,fldCountry,fldAbbreviation,
-    fldCapitalStatus,fldPopulation) VALUES (%s, %s,%s, %s,%s, %s,%s) """
+    sql_insert_query = """INSERT INTO tblCitiesImport (fldName,fldLat,fldLong,fldCountry,fldAbbreviation,fldCapitalStatus,fldPopulation) VALUES (%s, %s,%s, %s,%s, %s,%s) """
     cursor.execute(sql_insert_query, inputData)
     mysql.get_db().commit()
     return redirect("/", code=302)
@@ -94,7 +85,7 @@ def api_browse() -> str:
     cursor = mysql.get_db().cursor()
     cursor.execute('SELECT * FROM tblCitiesImport')
     result = cursor.fetchall()
-    json_result = json.dumps(result)
+    json_result = json.dumps(result);
     resp = Response(json_result, status=200, mimetype='application/json')
     return resp
 
@@ -104,7 +95,7 @@ def api_retrieve(city_id) -> str:
     cursor = mysql.get_db().cursor()
     cursor.execute('SELECT * FROM tblCitiesImport WHERE id=%s', city_id)
     result = cursor.fetchall()
-    json_result = json.dumps(result)
+    json_result = json.dumps(result);
     resp = Response(json_result, status=200, mimetype='application/json')
     return resp
 
